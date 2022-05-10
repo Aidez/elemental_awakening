@@ -2,7 +2,7 @@ if _G["OnlyFarmSpins"] == nil then
     _G.OnlyFarmSpins = false
 end
 if _G["WantedMagics"] == nil then
-    _G.WantedMagics = {"Time","Reality Collapse","Celestial","Eclipse","","","","","",""} -- supposed to be used with the script on the v3rm thread, but if you only have this part change the information in these tables
+    _G.WantedMagics = {"Time","Reality Collapse","Celestial","Eclipse","","","","","",""}
 end
 if _G["WantedRarities"] == nil then
     _G.WantedRarities = {"Heavenly","Legendary","Exotic","","",""}
@@ -17,11 +17,12 @@ for i,v in pairs(getconnections(game:GetService("Players").LocalPlayer.Idled)) d
 end
 
 local Debounce = false
+local FullStop = false
 repeat wait() until game.ReplicatedStorage:FindFirstChild("Events")
 local SpawnRemote = game.ReplicatedStorage.Events:WaitForChild("Spawn")
 
 game:GetService('RunService').Stepped:connect(function()
-   if not Debounce and game.Players.LocalPlayer:FindFirstChild("PlayerGui") then
+   if not Debounce and not FullStop and game.Players.LocalPlayer:FindFirstChild("PlayerGui") then
        Debounce = true
        local StatsGui = nil
        local PlayButton = nil
@@ -65,9 +66,9 @@ game:GetService('RunService').Stepped:connect(function()
                    local Magic, Rarity = game:GetService("ReplicatedStorage").Events.Spin:InvokeServer(false)
                    print("Rolled "..Magic.." with a rarity of "..Rarity)
                    if table.find(_G.WantedMagics,Magic) or table.find(_G.WantedRarities,Rarity) then
-                       if OnlyFarmSpins == false then
+                       if _G.OnlyFarmSpins == false then
                            game.Players.LocalPlayer.Character:BreakJoints()
-                           Debounce = true
+                           FullStop = true
                            return
                        end
                    end
