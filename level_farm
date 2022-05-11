@@ -11,9 +11,13 @@ game:GetService('RunService').Stepped:connect(function()
         Debounce = true
         local StatsGui = nil
         local PlayButton = nil
+        local MPGui
         for i,v in pairs(game.Players.LocalPlayer.PlayerGui:GetDescendants()) do
             if v.Name == "StatsGUI" then
                 StatsGui = v
+            end
+            if v.Name == "ME" and v.Parent.Name == "MagicEnergyGUI" then
+                MPGui = v
             end
         end
         if SpawnRemote.ClassName == "RemoteFunction" then -- changed to a remote function after the latest update, this is for compatibility
@@ -41,6 +45,20 @@ game:GetService('RunService').Stepped:connect(function()
                          wait()
                          Tool.Parent = game.Players.LocalPlayer.Backpack
                      end
+                 end
+                 if MPGui ~= nil then
+                    local ManaNumbers = string.split(MPGui.Text,"/")
+                    local Mana = tonumber(ManaNumbers[1])
+                    local MaxMana = tonumber(ManaNumbers[2])
+                    local Threshold = MaxMana / 3
+                    if Mana ~= nil and MaxMana ~= nil and Mana < Threshold then
+                        game.Players.LocalPlayer.Character:BreakJoints()
+                        if SpawnRemote.ClassName == "RemoteFunction" then
+                            SpawnRemote:InvokeServer()
+                        elseif SpawnRemote.ClassName == "RemoteEvent" then
+                            SpawnRemote:FireServer()
+                        end
+                    end
                  end
             end
         end
