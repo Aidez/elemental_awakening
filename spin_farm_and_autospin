@@ -18,7 +18,6 @@ end
 
 local Debounce = false
 local FullStop = false
-local HasGamepass = game:GetService("MarketplaceService"):UserOwnsGamePassAsync(game.Players.LocalPlayer.UserId,20164545)
 repeat wait() until game.ReplicatedStorage:FindFirstChild("Events")
 local SpawnRemote = game.ReplicatedStorage.Events:WaitForChild("Spawn")
 
