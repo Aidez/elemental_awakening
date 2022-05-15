@@ -4,7 +4,7 @@ end
 
 local Debounce = false
 repeat wait() until game.ReplicatedStorage:FindFirstChild("Events")
-local SpawnRemote = game.ReplicatedStorage.Events:WaitForChild("Spawn")
+local SpawnRemote = game.ReplicatedStorage.Events:WaitForChild("Spawn2")
 
 game:GetService('RunService').Stepped:connect(function()
     if not Debounce and game.Players.LocalPlayer:FindFirstChild("PlayerGui") then
